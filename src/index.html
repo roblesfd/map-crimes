@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crime JS</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div id="main-container" class="h-screen min-w-full flex justify-between">
+      <div
+        id="side-bar"
+        class="sidebar bg-primary-500 w-106 text-primary-5 md:px-6 py-8 flex flex-col justify-start items-center relative shadow-md"
+      >
+        <h1 id="sidebar-title" class="text-2xl">Crime JS 💀</h1>
+        <button
+          id="toggle-btn"
+          class="absolute top-0 right-0 mt-2 mr-2 text-secondary-10 hover:bg-secondary-500 px-1 rounded-sm"
+        >
+          <span class="material-icons text-4xl">arrow_left</span>
+        </button>
+        <ul class="crimes-list w-full mt-10 max-h-screen overflow-y-scroll">
+          <!-- form -->
+          <form
+            class="hide-form form-add-crime bg-primary-400 text-sm flex flex-col justify-start gap-2 mb-4 p-2 transition-all duration-500 transition-transform duration-1000"
+          >
+            <h3 class="text-center font-semibold mb-4">
+              Añadir registro de delito
+            </h3>
+            <div
+              id="categoria-container"
+              class="form__row flex justify-between"
+            >
+              <label class="form__label">Categoria</label>
+              <select
+                id="crimen-categoria"
+                class="form__input form__input--categoria w-30 px-3 py-1.5 font-sans text-primary-800 border rounded-md bg-primary-5 transition duration-200"
+              >
+                <option value="" selected>--Selecciona una opción--</option>
+                <option value="personal">Delito personal</option>
+                <option value="propiedad">Delito a propiedad</option>
+              </select>
+            </div>
+            <div
+              id="tipo-container"
+              class="hidden form__row flex justify-between"
+            >
+              <!-- tipo -->
+              <label class="form__label">Tipo</label>
+              <select
+                id="crimen-personal-tipo"
+                class="hidden form__input form__input--tipo w-30 px-3 py-1.5 font-sans text-primary-800 border rounded-md bg-primary-5 transition duration-200"
+                selected
+              >
+                <option value="">--Selecciona una opción--</option>
+                <option value="homicidio">Homicidio</option>
+                <option value="feminicidio">Feminicidio</option>
+                <option value="agresion">Agresión</option>
+                <option value="abuso_domestico">Abuso doméstico</option>
+                <option value="secuestro">Secuestro</option>
+                <option value="asalto">Asalto</option>
+                <option value="violacion">Violación</option>
+                <option value="agresion_sexual">Agresión sexual</option>
+              </select>
+              <select
+                id="crimen-propiedad-tipo"
+                class="hidden form__input form__input--tipo w-30 px-3 py-1.5 font-sans text-primary-800 border rounded-md bg-primary-5 transition duration-200"
+                selected
+              >
+                <option value="robo">Robo</option>
+                <option value="vandalismo">Vandalismo</option>
+                <option value="allanamiento_de_morada">
+                  Allanamiento de morada
+                </option>
+              </select>
+            </div>
+            <div class="form__row flex justify-between">
+              <label class="form__label">Fecha </label>
+              <input
+                id="crimen-fecha"
+                type="date"
+                name="crimen-fecha"
+                value="2024-01-01"
+                min="2024-01-01"
+                class="w-30 px-3 py-1.5 text-primary-800 border rounded-md bg-primary-5 transition duration-200 text-xs"
+              />
+            </div>
+            <div class="form__row flex justify-between">
+              <label class="form__label">Titulo</label>
+              <input
+                id="crimen-titulo"
+                type="text"
+                name="crimen-titulo"
+                class="form__input w-30 px-3 py-1.5 text-primary-800 border rounded-md bg-primary-5 transition duration-200"
+              />
+            </div>
+            <div class="form__row flex flex-col justify-between">
+              <label class="form__label mb-3">Descripción</label>
+              <textarea
+                id="crimen-descripcion"
+                name="crimen-descripcion"
+                class="form__input w-full px-3 py-1.5 text-primary-800 border rounded-md bg-primary-5 transition duration-200"
+                cols="20"
+                rows="7"
+              ></textarea>
+            </div>
+            <button
+              class="w-full bg-secondary-500 hover:bg-secondary-600 py-2 rounded-md"
+            >
+              Enviar
+            </button>
+          </form>
+          <!-- crimen detalle -->
+          <!-- <li
+            data-id="123"
+            class="crimes-list-item cursor-pointer border-l-8 border-secondary-400 h-20 w-full py-2 px-4 bg-primary-400 rounded-[6px] mb-3 grid grid-cols-4 gap-3"
+          >
+            <h3 class="h-4 col-span-full grid-cols-4 mb-2">Crimen 1</h3>
+            <div class="crime-details text-xs flex justify-between">
+              <span class="crime-detail"> 🗺️ </span>
+              <span class="crime-detail"> 12 </span>
+              <span class="crime-detail"> KM </span>
+            </div>
+            <div class="crime-details text-xs flex justify-between">
+              <span class="crime-detail"> 🗺️ </span>
+              <span class="crime-detail"> 12 </span>
+              <span class="crime-detail"> KM </span>
+            </div>
+            <div class="crime-details text-xs flex justify-between">
+              <span class="crime-detail"> 🗺️ </span>
+              <span class="crime-detail"> 12 </span>
+              <span class="crime-detail"> KM </span>
+            </div>
+            <div class="crime-details text-xs flex justify-between">
+              <span class="crime-detail"> 🗺️ </span>
+              <span class="crime-detail"> 12 </span>
+              <span class="crime-detail"> KM </span>
+            </div>
+          </li> -->
+        </ul>
+      </div>
+      <div id="map" class="h-full w-full"></div>
+    </div>
+  </body>
+</html>
